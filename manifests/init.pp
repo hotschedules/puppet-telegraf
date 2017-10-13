@@ -65,6 +65,9 @@
 # [*inputs*]
 #   Hash.  Specify input plugins and their options.
 #
+# [*aggregators*]
+#   Hash.  Specify aggregator plugins and their options.
+#
 # [*global_tags*]
 #   Hash.  Global tags as a key-value pair.
 #
@@ -106,6 +109,7 @@ class telegraf (
   $debug                  = $telegraf::params::debug,
   $quiet                  = $telegraf::params::quiet,
   $inputs                 = $telegraf::params::inputs,
+  $aggregators            = $telegraf::params::aggregators,
   $outputs                = $telegraf::params::outputs,
   $global_tags            = $telegraf::params::global_tags,
   $manage_service         = $telegraf::params::manage_service,
@@ -141,6 +145,7 @@ class telegraf (
   validate_bool($debug)
   validate_bool($quiet)
   validate_hash($inputs)
+  validate_hash($aggregators)
   validate_hash($outputs)
   validate_hash($global_tags)
   validate_bool($manage_service)
@@ -157,6 +162,7 @@ class telegraf (
   # from multiple files (`:merge_behavior: deeper` needs to be
   # set in your `hiera.yaml`)
   $_outputs = hiera_hash('telegraf::outputs', $outputs)
+  $_aggregators = hiera_hash('telegraf::aggregators', $aggregators)
   $_inputs = hiera_hash('telegraf::inputs', $inputs)
 
   contain ::telegraf::install

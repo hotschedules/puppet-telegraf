@@ -37,6 +37,20 @@
 <%   end -%>
 <% end -%>
 
+<% if @_aggregators -%>
+#
+# AGGREGATORS:
+#
+<%   @_aggregators.sort.each do | aggregator, options | -%>
+[[aggregators.<%= aggregator %>]]
+<%      unless options == nil -%>
+<%          options.sort.each do | option, value | -%>
+  <%= option -%> = <% if value.is_a?(String) %>"<%= value %>"<% elsif value.is_a?(Array) %><%= value.inspect %><% else %><%= value %><% end %>
+<%          end -%>
+<%      end -%>
+<%   end -%>
+<% end -%>
+
 <% if @_inputs -%>
 #
 # INPUTS:
